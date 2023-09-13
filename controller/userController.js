@@ -9,77 +9,25 @@ const {sendEmail} = require("../middlewares/email")
 // REGISTER USER 
 
 
-let studentsEmail =  [
-    "chibuezeonyenze123@gmail.com",
-    "oluchicharity10@gmail.com",
-"olajideojo97@gmail.com",
-"bienvenugbeti7@gmail.com",
-"josephochiagha112@gmail.com",
-"diborsolomon07@gmail.com",
-"olufemi261@gmail.com",
-"samuelchinaza67@gmail.com",
-"gloriaakubor7@gmail.com",
-"ebutabenjamin34@gmail.com", 
-"ebenezertope4@gmail.com",
-"officiallyyoung01@gmail.com",
-"nwobodocollins10@gmail.com",
-"adekunlemichael1319@gmail.com",
-"favourfavourite660@gmail.com",
-"henrytrust1111@gmail.com",
-"ekhatormercy07@gmail.com",
-"bowotojerry@gmail.com",
-"abdulwaheedabass02@gmail.com",
-"nwejeebube@gmail.com",
-"francisdeking20@gmail.com",
-"akehford007@gmail.com",
-"dekene585@gmail.com",
-"obodoemmanuella@gmail.com",
-"Toweh02@gmail.com",
-"aishatismail07@gmail.com",
-"oyisalacute3@gmail.com",
-"akudechidera@gmail.com",
-"amehlove147@gmail.com", 
-"izikmessiah@gmail.com",
-"japhethprosper234@gmail.com",
-"alaolateefojo@gmail.com",
-"davidtobe1999@gmail.com ",
-"favourchukwu122@gmail.com" ,
-"othneilvictory16@gmail.com",
-"viviannzemeke@gmail.com",
-"ololade4ahmed@gmail.com",
-"eledoamaka@gmail.com",
-"akandeabdulafeez84@gmail.com",
-"anthonyodoh16@gmail.com",
- "chinonsoebere468@gmail.com",
-"obinnpatrick301@gmail.com",
-"divineobi1250@gmail.com",
-"christianachristopher09@gmail.com",
-"kingsleyibeh506@gmail.com",
-"godspoweremmanuel304@gmail.com",
-"ebubecynthiaobidiwe@gmail.com",
-"oluomojossy@gmail.com",
-"agboe255@gmail.com ",
-"agbanzofrancesca@gmail.com",
-"gracebabafemi993@gmail.com",
-"ikecas2020@gmail.com",
-"temitopeatanda02@gmail.com",
-"victherich@gmail.com" ,
-"ujahcollins@gmail.com",
-"juliusemma250@gmail.com",
-"danielbenevolent1@gmail.com",
-"rozanoehiz@gmail.com",
-"ibboss3695@gmail.com",
-]
+
 
 
 
 const registration = async (req, res)=>{
     try {
         const { fullName, stack,email, password } = req.body;
-        if (!studentsEmail.includes(email.toLowerCase())) {
-            res.status(400).json({
+        const isEmail = await userModel.findOne({email});
+        if (isEmail) 
+            return res.status(400).json({
+                message: `User with this Email: ${email} already exist.`
+            })
+        var student = process.env.studentsEmail
+        if (!student.includes(email.toLowerCase())) {
+            console.log(student);
+            return res.status(400).json({
                 message: `User with this Email: ${email} is not a student.`
             })
+            
         } else {
             const salt = await bcrypt.genSalt(10);
             const hashPassword = await bcrypt.hash( password, salt )
@@ -158,7 +106,8 @@ const logIn = async(req, res)=>{
     try {
         const { email, password } = req.body;
         const user = await userModel.findOne({email});
-        if (!studentsEmail.includes(email.toLowerCase())) {
+        var student = process.env.studentsEmail
+        if (!student.includes(email.toLowerCase())) {
           return  res.status(404).json({
                 message: 'User not found'
             });
