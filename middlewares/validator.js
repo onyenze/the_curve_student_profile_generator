@@ -24,21 +24,14 @@ const validationMiddleware = (req, res, next) => {
         "string.regex.base": "Stack should only contain letters.",
       }),
     password: Joi.string()
-      .pattern(new RegExp("^(?=.*[!@#$%^&*])(?=.*[A-Z]).{8,}$"))
+    .pattern(new RegExp("^(?=.*\\d)(?=.*[!@#$%^&*])(?!.*\\s).{8,}$"))
       .required()
       .messages({
         "string.base": "Please provide a password.",
         "string.empty": "Please provide a password.",
         "string.pattern.base":
           "Password must be at least 8 characters long and include one uppercase letter and one special character (!@#$%^&*).",
-      }),
-    confirmPassword: Joi.string()
-      .valid(Joi.ref("password"))
-      .required()
-      .messages({
-        "any.only": "Passwords do not match.",
-        "string.empty": "Please confirm your password.",
-      }), // Must match the 'password' field, and it's required
+      })
   });
 
   // Validate the request body against the schema
