@@ -108,7 +108,7 @@ const logIn = async(req, res)=>{
         const { email, password } = req.body;
         const user = await userModel.findOne({email});
         var student = process.env.studentsEmail
-        if (!student.includes(email.toLowerCase())) {
+        if (student.includes(email.toLowerCase())) {
           return  res.status(404).json({
                 message: 'User not found'
             });
