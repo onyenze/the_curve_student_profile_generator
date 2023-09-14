@@ -19,13 +19,12 @@ const registration = async (req, res)=>{
         const isEmail = await userModel.findOne({email});
         if (isEmail) 
             return res.status(400).json({
-                message: `User with this Email: ${email} already exist.`
+                message: `User already exists`
             })
         var student = process.env.studentsEmail
         if (!student.includes(email.toLowerCase())) {
-            console.log(student);
             return res.status(400).json({
-                message: `User with this Email: ${email} is not a student.`
+                message: `Email not registered`
             })
             
         } else {
