@@ -35,7 +35,7 @@ const registration = async (req, res)=>{
 
 
             let result = null;
-
+            console.log(req.files);
           if (req.files) {
             result= await cloudinary.uploader.upload(
               req.files.profilePicture.tempFilePath,{folder:"profilePicture"},
@@ -64,6 +64,8 @@ const registration = async (req, res)=>{
             };
             const user = new userModel(data);
             const savedUser = await user.save();
+            console.log(savedUser);
+
             
             const subject = 'Welcome to The Curve Africa'
             
