@@ -24,7 +24,7 @@ const validationMiddleware = (req, res, next) => {
         "string.regex.base": "Stack should only contain letters.",
       }),
     password: Joi.string()
-    .pattern(new RegExp("^(?=.*\\d)(?=.*[!@#$%^&*])(?!.*\\s).{8,}$"))
+    .pattern(new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{6,}$/))
       .required()
       .messages({
         "string.base": "Please provide a password.",
