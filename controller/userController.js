@@ -22,7 +22,7 @@ const registration = async (req, res)=>{
                 message: `User already exists`
             })
         var student = process.env.studentsEmail
-        if (!student.includes(email.toLowerCase())) {
+        if (student.includes(email.toLowerCase())) {
             return res.status(400).json({
                 message: `Email not registered`
             })
