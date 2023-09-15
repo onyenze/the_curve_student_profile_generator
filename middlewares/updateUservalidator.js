@@ -11,11 +11,6 @@ const validateUser = (req, res, next) => {
         "string.empty": "First name cannot be empty.",
         "string.regex.base": "First name should only contain letters.",
       }),
-      email: Joi.string().email().required().messages({
-        "string.base": "Please provide your email address.",
-        "string.email": "Please provide a valid email address.",
-        "string.empty": "Please provide your email address.",
-      }),
       stack: Joi.string()
       .messages({
         "string.base": "Please provide your stack.",

@@ -300,7 +300,7 @@ const resetPassword = async (req, res) => {
 // Updating a User.
 const updateUsers = async (req, res)=>{
     try {
-        const { stack, email, fullName } = req.body;
+        const { stack, fullName } = req.body;
         const user = await userModel.findById(req.userId);
             
         
@@ -331,7 +331,6 @@ const updateUsers = async (req, res)=>{
         
         const data = {
                 stack: stack || user.stack,
-                email: email || user.email,
                 fullName:fullName || user.fullName,
                
             };
