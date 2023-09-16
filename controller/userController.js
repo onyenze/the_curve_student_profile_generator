@@ -35,7 +35,6 @@ const registration = async (req, res)=>{
 
 
             let result = null;
-            console.log(req.files);
           if (req.files) {
             result= await cloudinary.uploader.upload(
               req.files.profilePicture.tempFilePath,{folder:"profilePicture"},
@@ -64,7 +63,6 @@ const registration = async (req, res)=>{
             };
             const user = new userModel(data);
             const savedUser = await user.save();
-            console.log(savedUser);
 
             
             const subject = 'Welcome to The Curve Africa'
@@ -306,9 +304,7 @@ const updateUsers = async (req, res)=>{
         
         
         
-        
         let result = null;
-
     if (req.files) {
       if (user.profilePicture) {
         await cloudinary.uploader.destroy(user.publicId);
@@ -323,35 +319,29 @@ const updateUsers = async (req, res)=>{
           }
         }
       );
-    } 
-        
-        
-        
-        
-        
-        const data = {
-                stack: stack || user.stack,
-                fullName:fullName || user.fullName,
-               
-            };
-            if (req.files){
-                user.profilePicture = result.secure_url 
-              user.publicId = result.public_id 
-              } else {
-                user.profilePicture =  user.profilePicture;
-                user.publicId =  user.publicId;
-              }
-            const updateUser = await userModel.findByIdAndUpdate(req.userId, data, {new: true});
+    }
+    user.stack = stack || user.stack
+    user.fullName = fullName || user.fullName
 
-            await updateUser.save()
-            if (!updateUser) {
+  if (req.files){
+        user.profilePicture = result.secure_url 
+        user.publicId = result.public_id 
+        console.log(result.secure_url);
+        } else {
+            user.profilePicture =  user.profilePicture;
+            user.publicId =  user.publicId;
+              }
+            
+
+            await user.save()
+            if (!user) {
                 res.status(400).json({
                     message: 'Failed to Update User'
                 })
             } else {
                 res.status(200).json({
                     message: 'User updated successfully',
-                    data: updateUser
+                    data: user
                 })
             }
         
