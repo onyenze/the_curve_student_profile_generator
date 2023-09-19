@@ -22,7 +22,7 @@ const registration = async (req, res)=>{
                 message: `User already exists`
             })
         var student = process.env.studentsEmail
-        if (student.includes(email.toLowerCase())) {
+        if (!student.includes(email.toLowerCase())) {
             return res.status(400).json({
                 message: `Email not registered`
             })
@@ -73,7 +73,7 @@ const registration = async (req, res)=>{
             sendEmail({
                 email: savedUser.email,
                 subject,
-                message
+                message:message
             });
             if (!savedUser) {
                 res.status(400).json({
@@ -111,7 +111,7 @@ const logIn = async(req, res)=>{
               });
           }
         var student = process.env.studentsEmail
-        if (student.includes(email.toLowerCase())) {
+        if (!student.includes(email.toLowerCase())) {
           return  res.status(404).json({
                 message: 'User not found'
             });
