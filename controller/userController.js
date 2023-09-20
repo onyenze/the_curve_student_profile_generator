@@ -67,13 +67,13 @@ const registration = async (req, res)=>{
             
             const subject = 'Welcome to The Curve Africa'
             
-            const message = `Welcome on board The Curve, kindly login into your account to download your template.`
+            const message = "Welcome on board The Curve, kindly login into your account to download your template."
 
             
             sendEmail({
                 email: savedUser.email,
                 subject,
-                message:message
+                message
             });
             if (!savedUser) {
                 res.status(400).json({
@@ -104,7 +104,8 @@ const registration = async (req, res)=>{
 const logIn = async(req, res)=>{
     try {
         const { email, password } = req.body;
-        const user = await userModel.findOne({email});
+        const lower = email.toLowerCase()
+        const user = await userModel.findOne({lower});
         if (!user) {
             return  res.status(404).json({
                   message: 'User not found'

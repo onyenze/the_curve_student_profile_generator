@@ -29,7 +29,7 @@ const sendEmail = async (options) => {
           },
       to: options.email,
       subject: options.subject,
-      message: options.message,
+      text: options.message,
     });
 
     console.log("Message sent: %s", info.messageId);
