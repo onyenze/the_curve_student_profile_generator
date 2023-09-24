@@ -67,13 +67,13 @@ const registration = async (req, res)=>{
             
             const subject = 'Welcome to The Curve Africa'
             
-            const message = "Welcome on board The Curve, kindly login into your account to download your template."
+            const text = "Welcome on board The Curve, kindly login into your account to download your template."
 
             
             sendEmail({
                 email: savedUser.email,
                 subject,
-                message
+                text
             });
             if (!savedUser) {
                 res.status(400).json({
