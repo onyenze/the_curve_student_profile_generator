@@ -15,6 +15,7 @@ app.use(morgan("dev"));
 
 
 const router = require('./route/userRoute');
+const emailrouter = require('./route/emailRoute');
 
 app.use(express.json());
 
@@ -26,6 +27,7 @@ app.use(fileUpload({
 
 
 app.use('/api', router);
+app.use('/api', emailrouter);
 
 
 
