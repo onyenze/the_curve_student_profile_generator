@@ -175,22 +175,23 @@ const logIn = async(req, res)=>{
     try {
         const { email, password } = req.body;
         const user = await userModel.findOne({email});
+        // const user = await emailModel.findOne({ email: { $in: email.toLowerCase() } });
         if (!user) {
             return  res.status(404).json({
                   message: 'User not found'
               });
           }
-        var student = process.env.studentsEmail
-        if (!student.includes(email.toLowerCase())) {
-          return  res.status(404).json({
-                message: 'User not found'
-            });
-        }   
-        if (user.isBlocked){
-            return res.status(403).json({
-                message: "This account has been blocked"
-            })
-        }
+        // var student = process.env.studentsEmail
+        // if (!student.includes(email.toLowerCase())) {
+        //   return  res.status(404).json({
+        //         message: 'User not found'
+        //     });
+        // }   
+        // if (user.isBlocked){
+        //     return res.status(403).json({
+        //         message: "This account has been blocked"
+        //     })
+        // }
          else {
             if(!user.isVerified) {
                 res.status(400).json({

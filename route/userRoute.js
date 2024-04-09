@@ -23,7 +23,7 @@ const { passwordMiddleware } = require("../middlewares/passwordValidator");
 
 
 // Major Routes for Normal USERS
-router.post('/signup',validationMiddleware, registration)  // checked
+// router.post('/signup',validationMiddleware, registration)  // checked
 router.post('/signups', registration2) 
 router.post('/login', logIn) //checked
 router.put('/logout/:id',  userAuth, signOut) // checked
