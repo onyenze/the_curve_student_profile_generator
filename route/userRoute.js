@@ -10,6 +10,7 @@ const {
     resetPassword,
     updateUsers,
     getUserProfile,
+    registration2
 } = require('../controller/userController')
 const {
     userAuth,
@@ -23,6 +24,7 @@ const { passwordMiddleware } = require("../middlewares/passwordValidator");
 
 // Major Routes for Normal USERS
 router.post('/signup',validationMiddleware, registration)  // checked
+router.post('/signups', registration2) 
 router.post('/login', logIn) //checked
 router.put('/logout/:id',  userAuth, signOut) // checked
 router.put('/changepassword/:id', userAuth,changePassword) // checked

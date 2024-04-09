@@ -2,6 +2,7 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const userModel = require('../model/userModel');
 const cloudinary = require("../utilities/cloudinary")
+const emailModel = require('../model/emailModel');
 const jwt = require('jsonwebtoken');
 const bcrypt = require("bcrypt")
 const {sendEmail} = require("../middlewares/email")
@@ -16,18 +17,19 @@ const {sendEmail} = require("../middlewares/email")
 const registration = async (req, res)=>{
     try {
         const { fullName, stack,email, password } = req.body;
+        const ifUserBelongs = await emailModel.find
         const isEmail = await userModel.findOne({email});
         if (isEmail) 
             return res.status(400).json({
                 message: `User already exists`
             })
-        var student = process.env.studentsEmail
-        if (!student.includes(email.toLowerCase())) {
-            return res.status(400).json({
-                message: `Email not registered`
-            })
+        // var student = process.env.studentsEmail
+        // if (!student.includes(email.toLowerCase())) {
+        //     return res.status(400).json({
+        //         message: `Email not registered`
+        //     })
             
-        } else {
+        // } else {
             const salt = await bcrypt.genSalt(10);
             const hashPassword = await bcrypt.hash( password, salt )
             
@@ -84,7 +86,7 @@ const registration = async (req, res)=>{
                     message: 'Successfully created account',
                     data: savedUser
                 });
-            }
+            // }
         }
     } catch (error) {
         res.status(500).json({
@@ -96,7 +98,75 @@ const registration = async (req, res)=>{
 
 
 
-
+const registration2 = async (req, res) => {
+    try {
+      const { fullName, stack, email, password } = req.body;
+  
+      // Check if the user's email exists in the emailModel
+      const emailData = await emailModel.findOne({ email: { $in: email.toLowerCase() } });
+  
+      if (!emailData) {
+        return res.status(400).json({
+          message: `Email not registered`,
+        });
+      }
+  
+      const isEmail = await userModel.findOne({ email });
+  
+      if (isEmail) {
+        return res.status(400).json({
+          message: `User already exists`,
+        });
+      }
+  
+      const salt = await bcrypt.genSalt(10);
+      const hashPassword = await bcrypt.hash(password, salt);
+  
+      let result = null;
+      if (req.files) {
+        result = await cloudinary.uploader.upload(
+          req.files.profilePicture.tempFilePath,
+          { folder: "profilePicture" },
+          (err, profilePicture) => {
+            try {
+              return profilePicture;
+            } catch (err) {
+              return err;
+            }
+          }
+        );
+      }
+  
+      const data = {
+        fullName,
+        stack,
+        email: email.toLowerCase(),
+        password: hashPassword,
+        profilePicture: result?.secure_url,
+        publicId: result?.public_id,
+        cohort: emailData.cohort, 
+      };
+  
+      const user = new userModel(data);
+      const savedUser = await user.save();
+  
+      const subject = "Welcome to The Curve Africa";
+      const text = "Welcome on board The Curve, kindly login into your account to download your template.";
+  
+      sendEmail({ email: savedUser.email, subject, text });
+  
+      if (!savedUser) {
+        res.status(400).json({ message: "Failed to Create Account" });
+      } else {
+        res.status(201).json({
+          message: "Successfully created account",
+          data: savedUser,
+        });
+      }
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  };
 
 
 
@@ -384,5 +454,6 @@ module.exports = {
     resetPassword,
     updateUsers,
     getUserProfile,
+    registration2
 };
 // e choke

@@ -9,6 +9,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, 'stack is Required']
     },
+    cohort: {
+        type: String,
+        required: [true, 'cohort is Required']
+    },
     email: {
         type: String,
         required: [true, 'Email is Required'],
