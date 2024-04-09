@@ -175,7 +175,12 @@ const logIn = async(req, res)=>{
     try {
         const { email, password } = req.body;
         const user = await userModel.findOne({email});
-        // const user = await emailModel.findOne({ email: { $in: email.toLowerCase() } });
+        const invitedUser = await emailModel.findOne({ email: { $in: email.toLowerCase() } });
+        if (!invitedUser) {
+            return  res.status(403).json({
+                  message: 'User Access not granted, Contact admin'
+              });
+          }
         if (!user) {
             return  res.status(404).json({
                   message: 'User not found'

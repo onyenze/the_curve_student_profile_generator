@@ -5,38 +5,6 @@ const {sendEmail} = require("../middlewares/email")
 
 
 
-const addEmail = async (req,res)=>{
-    try {
-        // Ensure req.body is an array of emails
-      if (!req.body || !req.body.cohort || !Array.isArray(req.body.email)) {
-        return res.status(400).json({ error: 'Invalid request body. Expected an array of emails. and cohort' });
-      }
-
-      const {cohort,email} = req.body
-
-      // Create an array of email documents
-      const data = {
-        cohort,
-        email
-      }
-      console.log(data);
-      // Insert the email documents into the collection
-     const atm =  await emailModel.insertMany(data, { ordered: false });
-      
-    //   email.forEach(emailAddress => {
-    //     sendMail(emailAddress);
-    //   });
-
-      const Email = await emailModel.find()
-        res.status(200).json({ 
-        message: 'Emails added successfully',
-        data : Email ,
-        data2: atm
-    });
-    } catch (error) {
-        return error
-    }
-}
 
 
 
@@ -81,4 +49,4 @@ const getEmails = async (req,res) => {
     }
   };
 
-module.exports = {addEmail,getEmails}
+module.exports = {getEmails}

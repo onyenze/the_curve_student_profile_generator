@@ -2,14 +2,12 @@ const express = require('express');
 const router = express.Router();
 
 const {
-    addEmail,
     getEmails
 } = require('../controller/emailController')
 
 
 
 // Major Routes for Normal USERS
-router.post('/addemails', addEmail)  // checked
 router.post('/getemails', getEmails)  // checked
 
 
