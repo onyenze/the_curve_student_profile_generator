@@ -150,10 +150,10 @@ const registration2 = async (req, res) => {
       const user = new userModel(data);
       const savedUser = await user.save();
   
-      const subject = "Welcome to The Curve Africa";
-      const text = "Welcome on board The Curve, kindly login into your account to download your template.";
+    //   const subject = "Welcome to The Curve Africa";
+    //   const text = "Welcome on board The Curve, kindly login into your account to download your template.";
   
-      sendEmail({ email: savedUser.email, subject, text });
+    //   sendEmail({ email: savedUser.email, subject, text });
   
       if (!savedUser) {
         res.status(400).json({ message: "Failed to Create Account" });
