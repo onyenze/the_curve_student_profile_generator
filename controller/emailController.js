@@ -18,7 +18,7 @@ const getEmails = async (req, res) => {
     if (cohortEmails.length === 0) {
       const data = { cohort, email };
       const subject = "Welcome to The Curve Africa";
-      const text = "Welcome on board The Curve, kindly login into your account to download your template.";
+      const text = "Welcome on board The Curve, kindly click on the link to Sign Up  https://thecurve-studentprofile.vercel.app/#/signup ";
 
       email.forEach(emailAddress => {
         console.log(emailAddress);
