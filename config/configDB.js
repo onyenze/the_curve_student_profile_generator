@@ -6,7 +6,6 @@ const DBusername = process.env.DB_USERNAME
 
 
 const db = `mongodb+srv://${DBusername}:${DBpassword}@cluster0.foaaql5.mongodb.net/`
-// mongodb+srv://chibuezeonyenze123:i5qVNLFeDlSclNlO@cluster0.foaaql5.mongodb.net/
 mongoose.connect(db).then(()=>{
     console.log('Database Connected')
 }).catch((error)=>{
